@@ -12,6 +12,9 @@ import static org.comunity.acceptance.steps.UserAcceptanceSteps.followUser;
 @Component
 public class DataLoader {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     // 이렇게 entityManager를 통해서 직접 nativeQuery를 작성해서 셋팅을 해줘도 좋음.
     // @PersistenceContext
     // private EntityManager em;
@@ -27,5 +30,12 @@ public class DataLoader {
             // 유저 팔로우
         followUser(new FollowUserRequestDto(1L, 2L));
         followUser(new FollowUserRequestDto(1L, 3L));
+    }
+
+    public String getEmailToken(String email){
+        return entityManager.createNativeQuery("SELECT token FROM community_email_verification WHERE email = ?", String.class)
+                .setParameter(1, email)
+                .getSingleResult()
+                .toString();
     }
 }
