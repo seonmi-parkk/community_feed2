@@ -1,0 +1,13 @@
+# 테스트를 위한 db 연결
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/test
+    username: sa
+    password:
+# ddl-auto : 테스트가 실행될때마다 새로운 테이블을 생성하기 위해서
+# 기존 테이블을 제거하고 생성해주는 create-drop 옵션을 사용
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
