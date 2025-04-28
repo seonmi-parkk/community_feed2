@@ -7,16 +7,16 @@ import lombok.RequiredArgsConstructor;
 import org.comunity.post.repository.entity.like.QLikeEntity;
 import org.comunity.post.repository.entity.post.QPostEntity;
 import org.comunity.post.repository.entity.post.QUserPostQueueEntity;
-import org.comunity.post.repository.entity.post.UserPostQueueEntity;
 import org.comunity.post.ui.dto.GetPostContentResponseDto;
 import org.comunity.user.repository.entity.QUserEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+//@Repository
+@Deprecated
 @RequiredArgsConstructor
-public class UserPostQueueQueryRepositoryImpl implements UserPostQueueQueryRepository {
+public class UserPostQueueQueryRepositoryImpl_delete implements UserPostQueueQueryRepository {
     private final JPAQueryFactory queryFactory;
     private static final QUserPostQueueEntity userPostQueueEntity = QUserPostQueueEntity.userPostQueueEntity;
     private static final QPostEntity postEntity = QPostEntity.postEntity;
