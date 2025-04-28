@@ -20,6 +20,7 @@ public class UserPostQueueCommandRepositoryImpl implements UserPostQueueCommandR
     private final JpaUserRelationRepository jpaUserRelationRepository;
     // redis interface로 변경
     //private final JpaUserPostQueueRepository jpaUserPostQueueRepository;
+    // 나중에 redis 구현시 구현체 만들어줘야 함.
     private final UserQueueRedisRepository redisRepository;
 
 
