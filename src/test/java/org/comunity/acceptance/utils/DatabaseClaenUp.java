@@ -34,7 +34,7 @@ public class DatabaseClaenUp  implements InitializingBean {
                 .toList();
 
         // 자동 생성되는 id(autoIncrement) 값들을 전부 1로 초기화 해줘야 항상 같은 환경에서 테스트를 진행할 수 있음.
-        notGereratedIdTableNames = List.of("community_user_relation", "community_like");
+        notGereratedIdTableNames = List.of("community_user_auth","community_user_relation", "community_like");
     }
 
     @Transactional

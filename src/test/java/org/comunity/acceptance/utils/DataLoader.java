@@ -21,13 +21,13 @@ public class DataLoader {
 
     public void loadDate(){
         // 기본 데이터
-            // 유저 생성
+        // 유저 생성
         CreateUserRequestDto dto = new CreateUserRequestDto("test_user", "");
         createUser(dto);
         createUser(dto);
         createUser(dto);
 
-            // 유저 팔로우
+        // 유저 팔로우
         followUser(new FollowUserRequestDto(1L, 2L));
         followUser(new FollowUserRequestDto(1L, 3L));
     }
@@ -38,4 +38,17 @@ public class DataLoader {
                 .getSingleResult()
                 .toString();
     }
+
+    public boolean isEmailVerified(String email){
+        return entityManager.createQuery("SELECT isVerified FROM EmailVerificationEntity WHERE email = :email", Boolean.class)
+                .setParameter("email", email)
+                .getSingleResult();
+    }
+
+    public Long getUserId(String email){
+        return entityManager.createQuery("SELECT userId FROM UserAuthEntity WHERE email = :email", Long.class)
+                .setParameter("email", email)
+                .getSingleResult();
+    }
+
 }
