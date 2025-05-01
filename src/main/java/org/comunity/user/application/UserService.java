@@ -18,8 +18,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User createUser(CreateUserRequestDto dto) {
-        UserInfo info = new UserInfo(dto.name(), dto.profileImageUrl());
-        User user = new User(null, info);
+        UserInfo userInfo = new UserInfo(dto.userName(), dto.userProfileUrl());
+        User user = new User(null, userInfo);
         return userRepository.save(user);
     }
 

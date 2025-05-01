@@ -24,16 +24,30 @@ public class FeedAcceptanceSteps {
     }
 
     // 피드의 정보를 가지고 오기
-    public static List<GetPostContentResponseDto> requestFeed(Long userId){
+    public static List<GetPostContentResponseDto> requestFeed(String token){
         return RestAssured
                 .given().log().all()
+                .header("Authorization", "Bearer " + token)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get("/feed/{userId}", userId)
+                .get("/feed")
                 .then().log().all()
                 .extract()
                 .jsonPath()
                 .getList("value", GetPostContentResponseDto.class);
+    }
+
+    public static Integer requestFeedCode(String token){
+        return RestAssured
+                .given().log().all()
+                .header("Authorization", "Bearer " + token)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/feed")
+                .then().log().all()
+                .extract()
+                .jsonPath()
+                .get("code");
     }
 
 

@@ -11,18 +11,18 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EmailService {
-    private final EmailSendRepository emailSendRepository;
     private final EmailVerificationRepository emailVerificationRepository;
+    private final EmailSendRepository emailSendRepository;
 
     public void sendEmail(SendEmailRequestDto dto) {
-        Email email = Email.createEmail(dto.email());
-        String token = RandomTokenGenerator.generateToken();
+        Email emailValue = Email.createEmail(dto.email());
+        String randomToken = RandomTokenGenerator.generateToken();
 
-        emailSendRepository.sendEmail(email, token);
-        emailVerificationRepository.createEmailVerification(email, token);
+        emailVerificationRepository.createEmailVerification(emailValue, randomToken);
+        emailSendRepository.sendVerificationEmail(emailValue, randomToken);
     }
 
-    public void verifyEmail(String email, String token) {
+    public void verify(String email, String token) {
         Email emailValue = Email.createEmail(email);
         emailVerificationRepository.verifyEmail(emailValue, token);
     }

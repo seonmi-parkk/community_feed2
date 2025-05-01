@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CommentTest {
     private final UserInfo info = new UserInfo("name", "url");
-    private final User user = new User(1L, info);
-    private final User otherUser = new User(2L, info);
+    private final User user = new User(10L, info);
+    private final User otherUser = new User(11L, info);
 
-    private final Post post = new Post(1l, user, new PostContent("content"));
-    private final Comment comment = new Comment(1L, post, user, new CommentContent("content"));
+    private final Post post = new Post(10L, user, new PostContent("content"));
+    private final Comment comment = new Comment(10L, post, user, new CommentContent("content"));
 
     @Test
     void givenCommentCreated_whenLike_thenIncreaseLikeCount() {

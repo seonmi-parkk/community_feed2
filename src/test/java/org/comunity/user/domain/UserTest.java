@@ -14,8 +14,8 @@ public class UserTest {
 
     @BeforeEach
     void init() {
-        user1 = new User(1L, userInfo);
-        user2 = new User(2L, userInfo);
+        user1 = new User(10L, userInfo);
+        user2 = new User(11L, userInfo);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class UserTest {
     @Test
     void givenTwoSameIdUser_WhenEqual_thenReturnTrue (){
         // given
-        User sameUser = new User(1L, userInfo);
+        User sameUser = new User(10L, userInfo);
 
         // when
         boolean isSame = user1.equals(sameUser);
@@ -52,7 +52,7 @@ public class UserTest {
     @Test
     void givenTwoSameIdUser_WhenHashcode_thenEqual (){
         // given
-        User sameUser = new User(1L, userInfo);
+        User sameUser = new User(10L, userInfo);
 
         // when
         int hashCode1 = user1.hashCode();

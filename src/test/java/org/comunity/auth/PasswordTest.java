@@ -1,6 +1,7 @@
 package org.comunity.auth;
 
 import org.comunity.auth.domain.Password;
+import org.comunity.auth.domain.SHA256;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -29,9 +30,10 @@ public class PasswordTest {
         assertFalse(password.matchPassword("password"));
     }
 
-    @ParameterizedTest
-    @NullAndEmptySource
-    void givenPasswordIsNull_thenThreowError(String password) {
-        assertThrows(IllegalArgumentException.class, () -> Password.createEncryptedPassword(password));
+    @Test
+    void givenPassword_whenMatchNullPassword_thenReturnFalse() {
+        Password password = Password.createPassword(SHA256.encrypt("password"));
+
+        assertTrue(password.matchPassword("password"));
     }
 }

@@ -1,24 +1,30 @@
 package org.comunity.auth.domain;
 
+import lombok.Getter;
+
+@Getter
 public class UserAuth {
     // 3가지 String 값을 받아서 mashup 해주는 클래스
 
     private final Email email;
     private final Password password;
-    private final UserRole userRole;
-    private Long UserId;
+    private final UserRole role;
+    private Long userId;
 
-    public UserAuth(String email, String password, String userRole) {
+    public UserAuth(String email, String password, String role) {
+        if (email == null || password == null || role == null) {
+            throw new IllegalArgumentException("invalid auth information");
+        }
         this.email = Email.createEmail(email);
         this.password = Password.createEncryptedPassword(password);
-        this.userRole = UserRole.valueOf(userRole);
+        this.role = UserRole.valueOf(role);
     }
 
-    public UserAuth(String email, String password, String userRole, Long userId) {
+    public UserAuth(Long userId, String email, String password, String role) {
+        this.userId = userId;
         this.email = Email.createEmail(email);
-        this.password = Password.createEncryptedPassword(password);
-        this.userRole = UserRole.valueOf(userRole);
-        this.UserId = userId;
+        this.password = Password.createPassword(password);
+        this.role = UserRole.valueOf(role);
     }
 
     public String getEmail() {
@@ -29,12 +35,11 @@ public class UserAuth {
         return password.getEncryptedPassword();
     }
 
-    public String getUserRole() {
-        return userRole.name();
+    public String getRole() {
+        return role.name();
     }
 
-    public Long getUserId() {
-        return UserId;
+    public boolean matchPassword(String password) {
+        return this.password.matchPassword(password);
     }
-
 }

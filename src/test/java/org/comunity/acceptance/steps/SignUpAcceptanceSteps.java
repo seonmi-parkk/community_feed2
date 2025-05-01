@@ -19,13 +19,13 @@ public class SignUpAcceptanceSteps {
                 .jsonPath().get("code");
     }
 
-    public static Integer requestVerifyEmail(String email, String token){
+    public static Integer requestVerifyEmail(String email, String token) {
         return RestAssured
                 .given()
                 .queryParam("email", email)
                 .queryParam("token", token)
                 .when()
-                .get("/signup/verify-token")
+                .get("/signup/verify-email")
                 .then()
                 .extract()
                 .jsonPath().get("code");
@@ -42,4 +42,5 @@ public class SignUpAcceptanceSteps {
                 .extract()
                 .jsonPath().get("code");
     }
+
 }

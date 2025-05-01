@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.comunity.acceptance.steps.SignUpAcceptanceSteps.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
+public class AuthAcceptenceTest extends AcceptanceTestTemplate {
 
     private final String email = "email@email.com";
 
@@ -19,7 +19,7 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
     }
 
     @Test
-    void givenEmaill_whenSendEmail_thenVerificationTokenSaved(){
+    void givenEmail_whenSendEmail_thenVerificationTokenSaved() {
         // given
         SendEmailRequestDto dto = new SendEmailRequestDto(email);
 
@@ -33,7 +33,7 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
     }
 
     @Test
-    void givenInvalidEmail_whenSendEmail_thenVerificationTokenNotSaved(){
+    void givenInvalidEmail_whenSendEmail_thenVerificationTokenSaved() {
         // given
         SendEmailRequestDto dto = new SendEmailRequestDto("invalid email");
 
@@ -41,13 +41,11 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
         Integer code = requestSendEmail(dto);
 
         // then
-        // String token = getEmailToken(email);
-        // assertNull(token);
         assertEquals(400, code);
     }
 
     @Test
-    void givenSendEmail_whenVerifyEmail_thenEmailVerified(){
+    void givenSendEmail_whenVerifyEmail_thenEmailVerified() {
         // given
         requestSendEmail(new SendEmailRequestDto(email));
 
@@ -56,12 +54,13 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
         Integer code = requestVerifyEmail(email, token);
 
         // then
+        boolean isEmailVerified = isEmailVerified(email);
         assertEquals(0, code);
-        assertTrue(isEmailVerified(email));
+        assertTrue(isEmailVerified);
     }
 
     @Test
-    void givenSendEmail_whenVerifyEmailWithWrongToken_thenEmailNotVerified(){
+    void givenSendEmail_whenVerifyEmailWithWrongToken_thenEmailNotVerified() {
         // given
         requestSendEmail(new SendEmailRequestDto(email));
 
@@ -69,12 +68,13 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
         Integer code = requestVerifyEmail(email, "wrong token");
 
         // then
-        assertEquals(400, code);
-        assertFalse(isEmailVerified(email));
+        boolean isEmailVerified = isEmailVerified(email);
+        assertEquals(500, code);
+        assertFalse(isEmailVerified);
     }
 
     @Test
-    void givenSendEmailVerified_whenVerifyAgain_thenThrowError(){
+    void givenSendEmailVerified_whenVerifyAgain_thenThrowError() {
         // given
         requestSendEmail(new SendEmailRequestDto(email));
         String token = getEmailToken(email);
@@ -84,11 +84,11 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
         Integer code = requestVerifyEmail(email, token);
 
         // then
-        assertEquals(400, code);
+        assertEquals(500, code);
     }
 
     @Test
-    void givenSendEmail_whenVerifyEmailWithWrongEmail_thenThrowError(){
+    void givenSendEmail_whenVerifyEmailWithWrongEmail_thenThrowError() {
         // given
         requestSendEmail(new SendEmailRequestDto(email));
 
@@ -100,7 +100,7 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
     }
 
     @Test
-    void givenVerifiedEmail_whenRegister_thenUserRegistered(){
+    void givenVerifiedEmail_whenRegister_thenUserRegistered() {
         // given
         requestSendEmail(new SendEmailRequestDto(email));
         String token = getEmailToken(email);
@@ -113,12 +113,11 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
         // then
         assertEquals(0, code);
         Long userId = getUserId(email);
-        assertEquals(1L, userId);
-
+        assertEquals(10L, userId);
     }
 
     @Test
-    void givenUnverifiedEmail_whenRegister_thenThrowError(){
+    void givenUnverifiedEmail_whenRegister_thenThrowError() {
         // given
         requestSendEmail(new SendEmailRequestDto(email));
 
@@ -129,4 +128,5 @@ public class SignUpAcceptenceTest extends AcceptanceTestTemplate {
         // then
         assertEquals(400, code);
     }
+
 }

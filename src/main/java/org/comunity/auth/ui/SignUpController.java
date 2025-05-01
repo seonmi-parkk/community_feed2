@@ -5,6 +5,7 @@ import org.comunity.auth.application.AuthService;
 import org.comunity.auth.application.EmailService;
 import org.comunity.auth.application.dto.CreateUserAuthRequestDto;
 import org.comunity.auth.application.dto.SendEmailRequestDto;
+import org.comunity.auth.application.dto.UserAccessTokenResponseDto;
 import org.comunity.common.ui.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,16 +23,15 @@ public class SignUpController {
         return Response.ok(null);
     }
 
-    @GetMapping("/verify-token")
+    @GetMapping("/verify-email")
     public Response<Void> verifyEmail(String email, String token) {
-        emailService.verifyEmail(email, token);
+        emailService.verify(email, token);
         return Response.ok(null);
     }
 
     @PostMapping("/register")
-    public Response<Long> register(@RequestBody CreateUserAuthRequestDto dto) {
+    public Response<UserAccessTokenResponseDto> register(@RequestBody CreateUserAuthRequestDto dto) {
         return Response.ok(authService.registerUser(dto));
     }
-
 
 }

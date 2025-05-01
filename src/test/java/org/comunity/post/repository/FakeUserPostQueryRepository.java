@@ -1,6 +1,5 @@
 package org.comunity.post.repository;
 
-import lombok.RequiredArgsConstructor;
 import org.comunity.post.repository.entity.post.PostEntity;
 import org.comunity.post.repository.post_queue.UserPostQueueQueryRepository;
 import org.comunity.post.ui.dto.GetPostContentResponseDto;

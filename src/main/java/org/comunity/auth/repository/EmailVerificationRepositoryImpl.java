@@ -18,24 +18,21 @@ public class EmailVerificationRepositoryImpl implements EmailVerificationReposit
 
     @Override
     @Transactional
-    public void createEmailVerification(Email email, String token) {
+    public void createEmailVerification(Email email, String randomToken) {
         String emailAddress = email.getEmailText();
         Optional<EmailVerificationEntity> entity = jpaEmailVerificationRepository.findByEmail(emailAddress);
 
-        if(entity.isPresent()) {
+        if (entity.isPresent()) {
             EmailVerificationEntity emailVerificationEntity = entity.get();
-
-            if(emailVerificationEntity.isVerified()) {
-                // 이미 인증이 되어있는 상태
+            if (emailVerificationEntity.isVerified()) {
                 throw new IllegalArgumentException("이미 인증된 이메일입니다.");
             }
 
-            // 보냈는데 아직 인증이 안된 상태
-            emailVerificationEntity.updateToken(token);
+            emailVerificationEntity.updateToken(randomToken);
             return;
         }
 
-        EmailVerificationEntity emailVerificationEntity = new EmailVerificationEntity(emailAddress, token);
+        EmailVerificationEntity emailVerificationEntity = new EmailVerificationEntity(emailAddress, randomToken);
         jpaEmailVerificationRepository.save(emailVerificationEntity);
     }
 
@@ -43,16 +40,15 @@ public class EmailVerificationRepositoryImpl implements EmailVerificationReposit
     @Transactional
     public void verifyEmail(Email email, String token) {
         String emailAddress = email.getEmailText();
-
         EmailVerificationEntity entity = jpaEmailVerificationRepository.findByEmail(emailAddress)
-                .orElseThrow(() -> new IllegalArgumentException("인증 요청하지 않은 이메일입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("인증되지 않은 이메일입니다."));
 
-        if(entity.isVerified()) {
+        if (entity.isVerified()) {
             throw new IllegalArgumentException("이미 인증된 이메일입니다.");
         }
 
-        if(!entity.hasSameToeken(token)) {
-            throw new IllegalArgumentException("토큰 값이 유효하지 않습니다.");
+        if (!entity.hasSameToken(token)) {
+            throw new IllegalArgumentException("토큰이 일치하지 않습니다.");
         }
 
         entity.verify();
@@ -61,7 +57,8 @@ public class EmailVerificationRepositoryImpl implements EmailVerificationReposit
     @Override
     public boolean isEmailVerified(Email email) {
         EmailVerificationEntity entity = jpaEmailVerificationRepository.findByEmail(email.getEmailText())
-                .orElseThrow(() -> new IllegalArgumentException("인증 요청하지 않은 이메일입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("인증되지 않은 이메일입니다."));
+
         return entity.isVerified();
     }
 }

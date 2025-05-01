@@ -10,10 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.comunity.acceptance.steps.FeedAcceptanceSteps.requestFeed;
+import static org.comunity.acceptance.steps.FeedAcceptanceSteps.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FeedAcceptanceTest extends AcceptanceTestTemplate {
+
+    private String token;
 
     /**
      * User 1 --- follow ---> User 2
@@ -22,6 +24,7 @@ public class FeedAcceptanceTest extends AcceptanceTestTemplate {
     @BeforeEach
     void setUp() {
         super.init();
+        this.token = login("user1@test.com");
     }
 
     // 인수테스트는 다양한 상황과 복잡한 셋팅이 있기 때문에
@@ -30,18 +33,42 @@ public class FeedAcceptanceTest extends AcceptanceTestTemplate {
      * User 2 create Post 1
      * User 1 Get Post 1 From Feed
      */
+//    @Test
+//    void givenUserHasFollowerAndCreatePost_whenFollowerUserRequestFeed_thenFollowerCanGetPostFromFeed(){
+//        // given
+//        CreatePostRequestDto dto = new CreatePostRequestDto(2L,"user 1 can get this post", PostPublicationState.PUBLIC);
+//        Long createdPostId = requestCreatePost(dto);
+//
+//        // when 팔로워 피드를 요청
+//        List<GetPostContentResponseDto> result = requestFeed(10L);
+//
+//        // then
+//        assertEquals(1, result.size());
+//        assertEquals(createdPostId, result.get(0).getId());
+//
+//    }
     @Test
-    void givenUserHasFollowerAndCreatePost_whenFollowerUserRequestFeed_thenFollowerCanGetPostFromFeed(){
+    void givenUserHasFollowerAndCreatePost_whenFollowerUserRequestFeed_thenFollowerCanGetPostFromFeed() {
         // given
-        CreatePostRequestDto dto = new CreatePostRequestDto(2L,"user 1 can get this post", PostPublicationState.PUBLIC);
-        Long createdPostId = FeedAcceptanceSteps.requestCreatePost(dto);
+        CreatePostRequestDto dto = new CreatePostRequestDto(11L, "1 content", PostPublicationState.PUBLIC);
+        Long createdPostId = requestCreatePost(dto);
 
-        // when 팔로워 피드를 요청
-        List<GetPostContentResponseDto> result = requestFeed(1L);
+        // when, 팔로워의 피드 요청
+        List<GetPostContentResponseDto> result = requestFeed(token);
 
         // then
         assertEquals(1, result.size());
         assertEquals(createdPostId, result.get(0).getId());
+    }
+
+    @Test
+    void givenUserHasFollowerAndCreatePost_whenFollowerUserRequestFeedWithInvaildToken_thenFollwerCanGetPostFromFeed() {
+        // given
+        // when, 팔로워의 피드 요청
+        Integer code = requestFeedCode("abcd");
+
+        // then
+        assertEquals(400, code);
 
     }
 
