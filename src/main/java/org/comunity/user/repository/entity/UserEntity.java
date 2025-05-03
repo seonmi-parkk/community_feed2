@@ -7,6 +7,9 @@ import org.comunity.common.repository.entity.TimeBaseEntity;
 import org.comunity.user.domain.User;
 import org.comunity.user.domain.UserInfo;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "community_user")
@@ -23,6 +26,10 @@ public class UserEntity extends TimeBaseEntity {
     private String profileImage;
     private Integer followerCount;
     private Integer followingCount;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDate regDate;
 
     // @OneToMany는 FetchType.LAZY이 default값
     //FetchType.LAZY => user에 대한 정보를 db에서 가져올 때 posts 필드가 쓰이기 전까지는

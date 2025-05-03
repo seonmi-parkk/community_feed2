@@ -1,8 +1,3 @@
-logging:
-  level:
-    org.hibernate.SQL: DEBUG  # SQL 출력
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
 # 테스트를 위한 db 연결
 spring:
   datasource:
@@ -13,11 +8,6 @@ spring:
 # ddl-auto : 테스트가 실행될때마다 새로운 테이블을 생성하기 위해서
 # 기존 테이블을 제거하고 생성해주는 create-drop 옵션을 사용
   jpa:
-    show-sql: false
     hibernate:
       ddl-auto: create-drop
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true  # 쿼리 주석 출력
     open-in-view: false

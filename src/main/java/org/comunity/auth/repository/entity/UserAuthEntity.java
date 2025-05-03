@@ -23,6 +23,7 @@ public class UserAuthEntity extends TimeBaseEntity {
     private String password;
     private String role;
     private Long userId;
+    // 마지막 로그인 시간
     private LocalDateTime lastLoginDt;
 
     public UserAuthEntity(UserAuth userAuth, Long userId) {

@@ -36,6 +36,7 @@ public class UserAuthRepositoryImpl implements UserAuthRepository {
             throw new IllegalArgumentException("Invalid password");
         }
 
+        // 마지막 로그인 시간 업데이트
         userAuthEntity.updateLastLoginAt();
         return userAuth;
     }

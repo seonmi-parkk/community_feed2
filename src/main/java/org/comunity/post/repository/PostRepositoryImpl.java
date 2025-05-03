@@ -23,7 +23,7 @@ public class PostRepositoryImpl implements PostRepository {
         // 하지만 이렇게 되면 postid, userid를 받아와야함.
     // 현재로썬 변경사항이 많아서 2번 방법을 사용할 것임.
     // 문제 해결 방법 2번
-        // update문을 jpql 쿼리문으로 작성
+        // update문을 xjpql 쿼리문으로 작성
         // save메서드에서 update인경우 작성한 jpql 쿼리문 실행
         //  @Transactional 어노테이션 추가하고
         // jpql쿼리에  @Modifying 추가해야 변경이 저장되고 변경 사용 가능

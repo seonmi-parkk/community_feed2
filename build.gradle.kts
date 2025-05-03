@@ -18,6 +18,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     // api기능 구현시 파라미터로 들어왔을때 에러처리를 위한
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
     // mysql
     runtimeOnly("com.mysql:mysql-connector-j")
