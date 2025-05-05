@@ -1,6 +1,7 @@
 package org.comunity.post.ui;
 
 import lombok.RequiredArgsConstructor;
+import org.comunity.common.idempotency.Idempotent;
 import org.comunity.common.ui.Response;
 import org.comunity.post.application.PostService;
 import org.comunity.post.application.dto.CreatePostRequestDto;
@@ -30,6 +31,7 @@ public class PostController {
         return Response.ok(post.getId());
     }
 
+    @Idempotent
     @PostMapping("/like")
     public Response<Void> LikePost(@RequestBody LikeRequestDto dto){
         postService.likePost(dto);
