@@ -2,11 +2,13 @@ package org.comunity.post.repository;
 
 import org.comunity.post.repository.entity.post.PostEntity;
 import org.comunity.post.repository.post_queue.UserQueueRedisRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Profile({"!test"})
 public class UserQueueRedisRepositoryImpl implements UserQueueRedisRepository {
     @Override
     public void publishPostToFollowingUserList(PostEntity postEntity, List<Long> userIdList) {

@@ -2,6 +2,8 @@ package org.comunity.admin.ui;
 
 import lombok.RequiredArgsConstructor;
 import org.comunity.admin.ui.dto.GetTableListResponseDto;
+import org.comunity.admin.ui.dto.posts.GetPostTableRequestDto;
+import org.comunity.admin.ui.dto.posts.GetPostTableResponseDto;
 import org.comunity.admin.ui.dto.users.GetUserTableRequestDto;
 import org.comunity.admin.ui.dto.users.GetUserTableResponseDto;
 import org.comunity.admin.ui.query.AdminTableQueryRepository;
@@ -38,6 +40,19 @@ public class AdminController {
         GetTableListResponseDto<GetUserTableResponseDto> result = adminTableQueryRepository.getUserTableData(dto);
         modelAndView.addObject("requestDto", dto);
         modelAndView.addObject("userList", result.getTableData());
+        modelAndView.addObject("totalCount", result.getTotalCount());
+        return modelAndView;
+    }
+
+    @GetMapping("/posts")
+    public ModelAndView posts(GetPostTableRequestDto dto) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("posts");
+
+        GetTableListResponseDto<GetPostTableResponseDto> result = adminTableQueryRepository.getPostTableData(dto);
+        modelAndView.addObject("requestDto", dto);
+        modelAndView.addObject("postList", result.getTableData());
         modelAndView.addObject("totalCount", result.getTotalCount());
         return modelAndView;
     }
